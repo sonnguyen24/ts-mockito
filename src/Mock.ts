@@ -19,7 +19,9 @@ export class Mocker {
     private objectPropertyCodeRetriever = new ObjectPropertyCodeRetriever();
     private excludedPropertyNames: string[] = ["hasOwnProperty"];
 
-    constructor(private clazz: any, protected instance: any = {}) {
+    constructor(private clazz: any, intf: boolean, protected instance: any = {}) {
+        this.mock.__tsmockitoInterface = intf;
+
         this.mock.__tsmockitoInstance = this.instance;
         this.mock.__tsmockitoMocker = this;
         if (_.isObject(this.clazz) && _.isObject(this.instance)) {
@@ -44,8 +46,13 @@ export class Mocker {
             get: (target: any, name: PropertyKey) => {
                 const hasMethodStub = name in target;
                 if (!hasMethodStub) {
-                    this.createPropertyStub(name.toString());
-                    this.createInstancePropertyDescriptorListener(name.toString(), {}, this.clazz.prototype);
+                    if (this.mock.__tsmockitoInterface) {
+                        this.createMethodStub(name.toString());
+                        this.createInstanceActionListener(name.toString(), {});
+                    } else {
+                        this.createPropertyStub(name.toString());
+                        this.createInstancePropertyDescriptorListener(name.toString(), {}, this.clazz.prototype);
+                    }
                 }
                 return target[name];
             },
