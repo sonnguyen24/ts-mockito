@@ -1,6 +1,6 @@
 {
-  "name": "ts-mockito",
-  "version": "2.3.1",
+  "name": "@johanblumenberg/ts-mockito",
+  "version": "1.0.0",
   "description": "Mocking library for TypeScript",
   "main": "lib/ts-mockito.js",
   "typings": "lib/ts-mockito",
@@ -15,11 +15,11 @@
     "test:karma:watch": "./node_modules/.bin/karma start karma.conf.js",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json 'src/**/*.ts' 'test/**/*.ts'"
   },
-  "author": "kuster.maciej@gmail.com",
+  "author": "johan.blumenberg@gmail.com",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NagRock/ts-mockito"
+    "url": "https://github.com/johanblumenberg/ts-mockito"
   },
   "keywords": [
     "mock",

@@ -1,35 +1,44 @@
-# ts-mockito [![build badge](https://travis-ci.org/NagRock/ts-mockito.svg?branch=master)](https://travis-ci.org/NagRock/ts-mockito) [![codecov](https://codecov.io/gh/NagRock/ts-mockito/branch/master/graph/badge.svg)](https://codecov.io/gh/NagRock/ts-mockito)
+# @johanblumenberg/ts-mockito
 
-Mocking library for TypeScript inspired by http://mockito.org/
-
-## 1.x to 2.x migration guide
-[1.x to 2.x migration guide](https://github.com/NagRock/ts-mockito/wiki/ts-mockito-1.x-to-2.x-migration-guide)
-
-## Main features
-
-
-* Strongly typed
-* IDE autocomplete
-* Mock creation (`mock`) (also abstract classes) [#example](#basics)
-* Spying on real objects (`spy`) [#example](#spying-on-real-objects)
-* Changing mock behavior (`when`) via:
-	* `thenReturn` - return value [#example](#stubbing-method-calls)
-	* `thenThrow` - throw an error [#example](#throwing-errors)
-	* `thenCall` - call custom method [#example](#custom-function)
-	* `thenResolve` - resolve promise [#example](#resolving--rejecting-promises)
-	* `thenReject` - rejects promise [#example](#resolving--rejecting-promises)
-* Checking if methods were called with given arguments (`verify`)
-	* `anything`, `notNull`, `anyString`, `anyOfClass` etc. - for more flexible comparision
-	* `once`, `twice`, `times`, `atLeast` etc. - allows call count verification [#example](#call-count-verification)
-	* `calledBefore`, `calledAfter` - allows call order verification [#example](#call-order-verification)
-* Resetting mock (`reset`, `resetCalls`) [#example](#resetting-mock-calls), [#example](#resetting-mock)
-* Capturing arguments passed to method (`capture`) [#example](#capturing-method-arguments)
-* Recording multiple behaviors [#example](#recording-multiple-behaviors)
-* Readable error messages (ex. `'Expected "convertNumberToString(strictEqual(3))" to be called 2 time(s). But has been called 1 time(s).'`)
+Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept until the following PRs are accepted, or similar functionality is added to ts-mockito:
+ - [Adding support for mocking interfaces](https://github.com/NagRock/ts-mockito/pull/76)
+ - [Adding support for verify(...).timeout(ms)](https://github.com/NagRock/ts-mockito/pull/97)
 
 ## Installation
 
-`npm install ts-mockito --save-dev`
+`npm install @johanblumenberg/ts-mockito --save-dev`
+
+## Added functionality in this fork
+
+### Verify with timeout
+
+This feature is useful when testing asynchronous functionality.
+You do some action and expect the result to arrive as an asynchronous
+function call to one of your mocks.
+
+```typescript
+let mockedFoo:Foo = mock(Foo);
+await verify(mockedFoo.getBar(3)).timeout(1000);
+```
+
+### Mocking interfaces
+
+Mocking interfaxces works just the same as mocking classes, except you
+must use the `imock()` function to create the mock.
+
+```typescript
+let mockedFoo:Foo = imock(); // Foo is a typescript interface
+when(mockedFoo.getBar(5)).thenReturn('five');
+```
+
+It also works for properties.
+
+```typescript
+let mockedFoo:Foo = imock(MockPropertyPolicy.StubAsProperty);
+when(mockedFoo.bar).thenReturn('five');
+```
+
+(unfortunately it doesn't work for mixing properties and methods on the same mock object)
 
 ## Usage
 
