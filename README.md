@@ -38,7 +38,24 @@ let mockedFoo:Foo = imock(MockPropertyPolicy.StubAsProperty);
 when(mockedFoo.bar).thenReturn('five');
 ```
 
-(unfortunately it doesn't work for mixing properties and methods on the same mock object)
+For interface mocks, you can set the defauklt behviour for mocked properties that
+have no expectations set. They can behave eiter as a property, returning null, or
+as a function, returning a function that returns null, or throw an exception.
+
+```typescript
+let mockedFoo1:Foo = imock(MockPropertyPolicy.Throw);
+instance(mockedFoo1).bar; // This throws an exception, because there is no expectation set on the bar property
+
+let mockedFoo2:Foo = imock(MockPropertyPolicy.Throw);
+when(mockedFoo2.bar).thenReturn('five');
+instance(mockedFoo2).bar; // Now this returns 'five', and no exception is thrown, because there is an expectation set on the bar property
+
+let mockedFoo3:Foo = imock(MockPropertyPolicy.StubAsProperty);
+instance(mockedFoo3).bar; // This returns null, because no expectation is set
+
+let mockedFoo4:Foo = imock(MockPropertyPolicy.StubAsMethod);
+instance(mockedFoo4).getBar(5); // This returns null, because no expectation is set
+```
 
 ## Usage
 
