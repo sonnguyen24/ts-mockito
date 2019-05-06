@@ -18,10 +18,12 @@ import {AnyStringMatcher} from "./matcher/type/AnyStringMatcher";
 import {AnythingMatcher} from "./matcher/type/AnythingMatcher";
 import {BetweenMatcher} from "./matcher/type/BetweenMatcher";
 import {DeepEqualMatcher} from "./matcher/type/DeepEqualMatcher";
+import {EndsWithMatcher} from "./matcher/type/EndsWithMatcher";
 import {Matcher} from "./matcher/type/Matcher";
 import {MatchingStringMatcher} from "./matcher/type/MatchingStringMatcher";
 import {NotNullMatcher} from "./matcher/type/NotNullMatcher";
 import {ObjectContainingMatcher} from "./matcher/type/ObjectContainingMatcher";
+import {StartsWithMatcher} from "./matcher/type/StartsWithMatcher";
 import {StrictEqualMatcher} from "./matcher/type/StrictEqualMatcher";
 import {MethodStubSetter} from "./MethodStubSetter";
 import {MethodStubVerificator} from "./MethodStubVerificator";
@@ -133,6 +135,14 @@ export function match(expectedValue: RegExp | string): any {
     return new MatchingStringMatcher(expectedValue) as any;
 }
 
+export function startsWith(expectedValue: string): string {
+    return new StartsWithMatcher(expectedValue) as any;
+}
+
+export function endsWith(expectedValue: string): string {
+    return new EndsWithMatcher(expectedValue) as any;
+}
+
 export function objectContaining(expectedValue: Object): any {
     return new ObjectContainingMatcher(expectedValue) as any;
 }
@@ -158,6 +168,8 @@ export default {
     notNull,
     strictEqual,
     match,
+    startsWith,
+    endsWith,
     objectContaining,
     MockPropertyPolicy,
 };
