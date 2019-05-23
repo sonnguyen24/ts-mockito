@@ -19,7 +19,6 @@ import {AnythingMatcher} from "./matcher/type/AnythingMatcher";
 import {BetweenMatcher} from "./matcher/type/BetweenMatcher";
 import {DeepEqualMatcher} from "./matcher/type/DeepEqualMatcher";
 import {EndsWithMatcher} from "./matcher/type/EndsWithMatcher";
-import {Matcher} from "./matcher/type/Matcher";
 import {MatchingStringMatcher} from "./matcher/type/MatchingStringMatcher";
 import {NotNullMatcher} from "./matcher/type/NotNullMatcher";
 import {ObjectContainingMatcher} from "./matcher/type/ObjectContainingMatcher";
@@ -95,7 +94,7 @@ export function resetCalls<T>(mockedValue: T): void {
     (mockedValue as any).__tsmockitoMocker.resetCalls();
 }
 
-export function anyOfClass<T>(expectedClass: { new (...args: any[]): T }): any {
+export function anyOfClass<T>(expectedClass: new (...args: any[]) => T): any {
     return new AnyOfClassMatcher(expectedClass) as any;
 }
 
