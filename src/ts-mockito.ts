@@ -157,10 +157,12 @@ export function objectContaining(expectedValue: Object): any {
     return new ObjectContainingMatcher(expectedValue) as any;
 }
 
-export function delayed<T>(): Promise<T> & {
+export type Delayed<T> = Promise<T> & {
     resolve: (value: T) => void;
     reject: (err: any) => void;
-} {
+};
+
+export function delayed<T>(): Delayed<T> {
     let resolve: (value: T) => void;
     let reject: (err: any) => void;
 
