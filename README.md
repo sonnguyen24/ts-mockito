@@ -66,7 +66,18 @@ let fn: (a: number, b: string) => number = fnmock();
 when(fn(10, 'hello')).thenReturn(5);
 
 instance(fn)(10, 'hello'); // returns 5
-verify(fn(10, 'hello)).called();
+verify(fn(10, 'hello')).called();
+```
+
+### Delay resolving promises
+
+The actions `.thenResolve()` and `.thenReject()` are returning promises that are already resolved or rejected. Sometimes you want to control the order or timing of when promises are resolved. In that case it is useful to return a delayed promise, and resolve it from the test code, when appropriate.
+
+```typescript
+let d = delayed<number>();
+when(obj.method()).thenReturn(d); // Return a promise that is not resolved yet
+
+d.resolve(1); // Later, the promise is resolved or rejected
 ```
 
 ## Usage

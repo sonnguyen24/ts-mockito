@@ -157,6 +157,20 @@ export function objectContaining(expectedValue: Object): any {
     return new ObjectContainingMatcher(expectedValue) as any;
 }
 
+export function delayed<T>(): Promise<T> & {
+    resolve: (value: T) => void;
+    reject: (err: any) => void;
+} {
+    let resolve: (value: T) => void;
+    let reject: (err: any) => void;
+
+    const d = new Promise<T>((res, rej) => {
+        resolve = res;
+        reject = rej;
+    });
+    return Object.assign(d, { resolve, reject });
+}
+
 // Export default object with all members (ember-browserify doesn't support named exports).
 export default {
     spy,
@@ -183,4 +197,5 @@ export default {
     endsWith,
     objectContaining,
     MockPropertyPolicy,
+    delayed,
 };
