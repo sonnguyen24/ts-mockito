@@ -51,6 +51,16 @@ export function imock<T>(policy: MockPropertyPolicy = MockPropertyPolicy.StubAsM
     return new Proxy(mockedValue, tsmockitoMocker.createCatchAllHandlerForRemainingPropertiesWithoutGetters("expectation"));
 }
 
+export function fnmock<R, T extends any[]>(): (...args: T) => R {
+    class Mock<R> {
+        fn(...args: T): R { return null as R; };
+    }
+
+    let m: Mock<R> = mock(Mock);
+    (m.fn as any).__tsmockitoInstance = instance(m).fn;
+    return m.fn;
+}
+
 export function verify<T>(method: T): MethodStubVerificator<T> {
     return new MethodStubVerificator(method as any);
 }
@@ -151,6 +161,7 @@ export default {
     spy,
     mock,
     imock,
+    fnmock,
     verify,
     when,
     instance,

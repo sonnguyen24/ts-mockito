@@ -57,6 +57,18 @@ let mockedFoo4:Foo = imock(MockPropertyPolicy.StubAsMethod);
 instance(mockedFoo4).getBar(5); // This returns null, because no expectation is set
 ```
 
+### Mocking free functions
+
+Sometimes you need to mock a function, not an object, for example to pass as a callback somewhere. This can be done using `fnmock()`. It works just like any other mock, except it's a function, not an object.
+
+```typescript
+let fn: (a: number, b: string) => number = fnmock();
+when(fn(10, 'hello')).thenReturn(5);
+
+instance(fn)(10, 'hello'); // returns 5
+verify(fn(10, 'hello)).called();
+```
+
 ## Usage
 
 ### Basics
