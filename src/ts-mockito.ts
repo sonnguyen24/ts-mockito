@@ -36,7 +36,7 @@ export function spy<T>(instanceToSpy: T): T {
     return new Spy(instanceToSpy).getMock();
 }
 
-export function mock<T>(clazz: { new(...args: any[]): T; } | (Function & { prototype: T }), policy: MockPropertyPolicy = MockPropertyPolicy.StubAsProperty ): T {
+export function mock<T>(clazz: (new(...args: any[]) => T) | (Function & { prototype: T }), policy: MockPropertyPolicy = MockPropertyPolicy.StubAsProperty): T {
     return new Mocker(clazz, policy).getMock();
 }
 
@@ -52,12 +52,13 @@ export function imock<T>(policy: MockPropertyPolicy = MockPropertyPolicy.StubAsM
 }
 
 export function fnmock<R, T extends any[]>(): (...args: T) => R {
-    class Mock<R> {
-        fn(...args: T): R { return null as R; };
+    class Mock {
+        public fn(...args: T): R { return null as R; }
     }
 
-    let m: Mock<R> = mock(Mock);
+    const m: Mock = mock(Mock);
     (m.fn as any).__tsmockitoInstance = instance(m).fn;
+    (m.fn as any).__tsmockitoMocker = (m as any).__tsmockitoMocker;
     return m.fn;
 }
 

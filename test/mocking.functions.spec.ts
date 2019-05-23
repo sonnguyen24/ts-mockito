@@ -1,10 +1,10 @@
-import { instance, when, mock, imock, fnmock, verify } from "../src/ts-mockito";
+import { capture, fnmock, imock, instance, mock, reset, resetCalls, verify, when } from "../src/ts-mockito";
 
 if (typeof Proxy !== "undefined") {
-    describe('mocking', () => {
-        describe('mocking functions', () => {
-            it('should mock free functions', () => {
-                let fn: () => number = fnmock();
+    describe("mocking", () => {
+        describe("mocking functions", () => {
+            it("should mock free functions", () => {
+                const fn: () => number = fnmock();
 
                 when(fn()).thenReturn(1);
 
@@ -12,14 +12,41 @@ if (typeof Proxy !== "undefined") {
                 verify(fn()).called();
             });
 
-            it('should match arguments of free functions', () => {
-                let fn: (a: string, b: number) => number = fnmock();
+            it("should match arguments of free functions", () => {
+                const fn: (a: string, b: number) => number = fnmock();
 
-                when(fn('a', 1)).thenReturn(1);
+                when(fn("a", 1)).thenReturn(1);
 
-                expect(instance(fn)('a', 1)).toEqual(1);
-                expect(instance(fn)('a', 2)).toBeNull();
-                verify(fn('a', 1)).called();
+                expect(instance(fn)("a", 1)).toEqual(1);
+                expect(instance(fn)("a", 2)).toBeNull();
+                verify(fn("a", 1)).called();
+            });
+
+            it("should reset mocks", () => {
+                const fn: () => number = fnmock();
+
+                when(fn()).thenReturn(1);
+                expect(instance(fn)()).toEqual(1);
+
+                reset(fn);
+                expect(instance(fn)()).toBeNull();
+            });
+
+            it("should reset calls", () => {
+                const fn: () => number = fnmock();
+
+                instance(fn)();
+                verify(fn()).once();
+
+                resetCalls(fn);
+                verify(fn()).never();
+            });
+
+            it("should capture parameters", () => {
+                const fn: (a: string) => void = fnmock();
+
+                instance(fn)("a");
+                expect(capture(fn).last()).toEqual(["a"]);
             });
         });
     });
