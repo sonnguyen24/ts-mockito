@@ -1,4 +1,4 @@
-import { anything, delayed, fnmock, imock, instance, mock, verify, when } from "../src/ts-mockito";
+import { anything, defer, fnmock, imock, instance, mock, verify, when } from "../src/ts-mockito";
 
 class MockObject {
     public method(): Promise<number> {
@@ -10,7 +10,7 @@ describe("delayed", () => {
     it("resolves a promise", async () => {
         const resolved: (value: number) => void = fnmock();
         const obj: MockObject = mock(MockObject);
-        const d = delayed<number>();
+        const d = defer<number>();
         when(obj.method()).thenReturn(d);
 
         instance(obj).method().then(instance(resolved));
@@ -23,7 +23,7 @@ describe("delayed", () => {
     it("rejects a promise", async () => {
         const rejected: (err: any) => void = fnmock();
         const obj: MockObject = mock(MockObject);
-        const d = delayed<number>();
+        const d = defer<number>();
         when(obj.method()).thenReturn(d);
 
         instance(obj).method().catch(instance(rejected));

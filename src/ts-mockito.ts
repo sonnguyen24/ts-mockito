@@ -157,12 +157,12 @@ export function objectContaining(expectedValue: Object): any {
     return new ObjectContainingMatcher(expectedValue) as any;
 }
 
-export type Delayed<T> = Promise<T> & {
+export type Deferred<T> = Promise<T> & {
     resolve: (value: T) => void;
     reject: (err: any) => void;
 };
 
-export function delayed<T>(): Delayed<T> {
+export function defer<T>(): Deferred<T> {
     let resolve: (value: T) => void;
     let reject: (err: any) => void;
 
@@ -199,5 +199,5 @@ export default {
     endsWith,
     objectContaining,
     MockPropertyPolicy,
-    delayed,
+    defer,
 };
