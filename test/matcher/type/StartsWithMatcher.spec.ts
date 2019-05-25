@@ -13,6 +13,10 @@ describe("StartsWithMatcher", () => {
                 // then
                 expect(result).toBeTruthy();
             });
+
+            it("describes the matcher", () => {
+                expect(testObj.toString()).toEqual("startsWith(abc)");
+            });
         });
 
         describe("when given value doesn\'t start with string", () => {
@@ -25,5 +29,4 @@ describe("StartsWithMatcher", () => {
             });
         });
     });
-
 });

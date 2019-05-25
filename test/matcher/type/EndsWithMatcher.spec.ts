@@ -13,6 +13,10 @@ describe("EndsWithMatcher", () => {
                 // then
                 expect(result).toBeTruthy();
             });
+
+            it("describes the matcher", () => {
+                expect(testObj.toString()).toEqual("endsWith(abc)");
+            });
         });
 
         describe("when given value doesn\'t end with string", () => {
@@ -25,5 +29,4 @@ describe("EndsWithMatcher", () => {
             });
         });
     });
-
 });
