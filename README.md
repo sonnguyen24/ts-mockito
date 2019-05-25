@@ -3,6 +3,9 @@
 Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept until the following PRs are accepted, or similar functionality is added to ts-mockito:
  - [Adding support for mocking interfaces](https://github.com/NagRock/ts-mockito/pull/76)
  - [Adding support for verify(...).timeout(ms)](https://github.com/NagRock/ts-mockito/pull/97)
+ - [Matcher types](https://github.com/NagRock/ts-mockito/pull/139)
+ - [Mock free functions](https://github.com/NagRock/ts-mockito/pull/140)
+ - [Add defer() for testing deferred promise resolution](https://github.com/NagRock/ts-mockito/pull/141)
 
 ## Installation
 
@@ -69,12 +72,12 @@ instance(fn)(10, 'hello'); // returns 5
 verify(fn(10, 'hello')).called();
 ```
 
-### Delay resolving promises
+### Defer resolving promises
 
-The actions `.thenResolve()` and `.thenReject()` are returning promises that are already resolved or rejected. Sometimes you want to control the order or timing of when promises are resolved. In that case it is useful to return a delayed promise, and resolve it from the test code, when appropriate.
+The actions `.thenResolve()` and `.thenReject()` are returning promises that are already resolved or rejected. Sometimes you want to control the order or timing of when promises are resolved. In that case it is useful to return a deferred promise, and resolve it from the test code, when appropriate.
 
 ```typescript
-let d = delayed<number>();
+let d = defer<number>();
 when(obj.method()).thenReturn(d); // Return a promise that is not resolved yet
 
 d.resolve(1); // Later, the promise is resolved or rejected
