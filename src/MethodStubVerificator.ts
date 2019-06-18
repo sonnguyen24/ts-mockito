@@ -8,7 +8,7 @@ export class MethodStubVerificator<T> {
     private methodCallToStringConverter: MethodCallToStringConverter = new MethodCallToStringConverter();
 
     constructor(private methodToVerify: MethodToStub) {
-
+        methodToVerify.watcher.invoked();
     }
 
     public called(): void {
@@ -56,6 +56,8 @@ export class MethodStubVerificator<T> {
     }
 
     public calledBefore(method: any): void {
+        method.watcher.invoked();
+
         const firstMethodAction = this.methodToVerify.mocker.getFirstMatchingAction(this.methodToVerify.methodName, this.methodToVerify.matchers);
         const secondMethodAction = method.mocker.getFirstMatchingAction(method.methodName, method.matchers);
         const mainMethodToVerifyAsString = this.methodCallToStringConverter.convert(this.methodToVerify);
@@ -76,6 +78,8 @@ export class MethodStubVerificator<T> {
     }
 
     public calledAfter(method: any): void {
+        method.watcher.invoked();
+
         const firstMethodAction = this.methodToVerify.mocker.getFirstMatchingAction(this.methodToVerify.methodName  , this.methodToVerify.matchers);
         const secondMethodAction = method.mocker.getFirstMatchingAction(method.methodName, method.matchers);
         const mainMethodToVerifyAsString = this.methodCallToStringConverter.convert(this.methodToVerify);

@@ -18,10 +18,14 @@ describe("mocking", () => {
             when(mockedFoo.sampleNumber).thenReturn(42);
 
             // then
-            expect((mockedFoo.sampleNumber as any).methodStubCollection).toBeDefined();
-            expect((mockedFoo.sampleNumber as any).matchers).toBeDefined();
-            expect((mockedFoo.sampleNumber as any).mocker).toBeDefined();
-            expect((mockedFoo.sampleNumber as any).methodName).toBeDefined();
+            const sampleNumber: any = mockedFoo.sampleNumber;
+            expect(sampleNumber.methodStubCollection).toBeDefined();
+            expect(sampleNumber.matchers).toBeDefined();
+            expect(sampleNumber.mocker).toBeDefined();
+            expect(sampleNumber.methodName).toBeDefined();
+
+            // cleanup, make sure to use sampleNumber
+            when(sampleNumber).thenReturn(0);
         });
 
         it("does create own property descriptors on instance", () => {

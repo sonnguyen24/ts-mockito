@@ -25,7 +25,11 @@ describe("mocking", () => {
             mockedFoo = mock(FooWithGetterAndSetter);
 
             // then
-            expect((mockedFoo.twoPlusTwo as any) instanceof MethodToStub).toBe(true);
+            const twoPlusTwo: any = mockedFoo.twoPlusTwo;
+            expect(twoPlusTwo instanceof MethodToStub).toBe(true);
+
+            // cleanup, make sure to use twoPlusTwo
+            when(twoPlusTwo).thenReturn(4);
         });
 
         it("does create own property descriptors on instance", () => {
@@ -48,7 +52,11 @@ describe("mocking", () => {
             // when
 
             // then
-            expect((mockedFoo.sampleString as any) instanceof MethodToStub).toBe(true);
+            const sampleString: any = mockedFoo.sampleString;
+            expect(sampleString instanceof MethodToStub).toBe(true);
+
+            // cleanup, make sure to use twoPlusTwo
+            when(sampleString).thenReturn("x");
         });
 
         it("does create inherited property descriptors on instance", () => {

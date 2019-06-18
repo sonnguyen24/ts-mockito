@@ -10,6 +10,7 @@ export class MethodStubSetter<T, ResolveType = void, RejectType = void> {
     private groupIndex: number;
 
     constructor(private methodToStub: MethodToStub) {
+        methodToStub.watcher.invoked();
         this.groupIndex = ++MethodStubSetter.globalGroupIndex;
     }
 

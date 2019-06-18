@@ -90,6 +90,8 @@ export function capture<T0>(method: (a: T0) => any): ArgCaptor1<T0>;
 export function capture(method: (...args: any[]) => any): ArgCaptor {
     const methodStub: MethodToStub = method();
     if (methodStub instanceof MethodToStub) {
+        methodStub.watcher.invoked();
+        
         const actions = methodStub.mocker.getActionsByName(methodStub.methodName);
         return new ArgCaptor(actions);
     } else {
@@ -173,6 +175,10 @@ export function defer<T>(): Deferred<T> {
     return Object.assign(d, { resolve, reject });
 }
 
+export function nextTick(): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, 0));
+}
+
 // Export default object with all members (ember-browserify doesn't support named exports).
 export default {
     spy,
@@ -200,4 +206,5 @@ export default {
     objectContaining,
     MockPropertyPolicy,
     defer,
+    nextTick,
 };

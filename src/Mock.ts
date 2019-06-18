@@ -197,29 +197,21 @@ export class Mocker {
             },
         });
 
-        const methodMock = (...args) => {
-            isProperty = false;
-
-            const matchers: Matcher[] = [];
-
-            for (const arg of args) {
-                if (!(arg instanceof Matcher)) {
-                    matchers.push(strictEqual(arg));
-                } else {
-                    matchers.push(arg);
-                }
-            }
-
-            return new MethodToStub(this.methodStubCollections[key], matchers, this, key);
-        };
-
         const propertyMock = () => {
             if (!this.methodStubCollections[key]) {
                 this.methodStubCollections[key] = new MethodStubCollection();
             }
 
+            const methodToMock = new MethodToStub(this.methodStubCollections[key], [], this, key);
+
+            const methodMock = (...args) => {
+                isProperty = false;
+                methodToMock.matchers = args.map(arg => (arg instanceof Matcher) ? arg : strictEqual(arg));
+                return methodToMock;
+            };
+    
             // Return a mix of a method stub and a property invocation, which works as both
-            return Object.assign(methodMock, new MethodToStub(this.methodStubCollections[key], [], this, key));
+            return Object.assign(methodMock, methodToMock);
         };
 
         Object.defineProperty(this.mock, key, {
