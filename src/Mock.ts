@@ -70,7 +70,7 @@ export class Mocker {
                     } else if (origin === "expectation") {
                         this.createMixedStub(name.toString());
                     }
-            }
+                }
                 return target[name];
             },
         };
@@ -132,6 +132,7 @@ export class Mocker {
         }
 
         Object.defineProperty(this.instance, key, {
+            enumerable: true,
             get: this.createActionListener(key),
         });
     }
@@ -141,7 +142,10 @@ export class Mocker {
             return;
         }
 
-        this.instance[key] = this.createActionListener(key);
+        Object.defineProperty(this.instance, key, {
+            enumerable: false,
+            get: () => this.createActionListener(key),
+        });
     }
 
     protected createActionListener(key: string): () => any {
@@ -188,13 +192,9 @@ export class Mocker {
         let isProperty = true;
 
         Object.defineProperty(this.instance, key, {
-            get: () => {
-                if (isProperty) {
-                    return this.createActionListener(key)();
-                } else {
-                    return this.createActionListener(key);
-                }
-            },
+            enumerable: true,
+            configurable: true,
+            get: () => this.createActionListener(key)(),
         });
 
         const propertyMock = () => {
@@ -205,11 +205,17 @@ export class Mocker {
             const methodToMock = new MethodToStub(this.methodStubCollections[key], [], this, key);
 
             const methodMock = (...args) => {
-                isProperty = false;
+                if (isProperty) {
+                    isProperty = false;
+                    Object.defineProperty(this.instance, key, {
+                        enumerable: this.mock.__policy === MockPropertyPolicy.StubAsProperty,
+                        get: () => this.createActionListener(key),
+                    });
+                }
                 methodToMock.matchers = args.map(arg => (arg instanceof Matcher) ? arg : strictEqual(arg));
                 return methodToMock;
             };
-    
+
             // Return a mix of a method stub and a property invocation, which works as both
             return Object.assign(methodMock, methodToMock);
         };
