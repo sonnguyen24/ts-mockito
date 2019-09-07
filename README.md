@@ -7,6 +7,7 @@ Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept 
  - [Mock free functions](https://github.com/NagRock/ts-mockito/pull/140)
  - [Add defer() for testing deferred promise resolution](https://github.com/NagRock/ts-mockito/pull/141)
  - [Add warning when forgetting to call instance()](https://github.com/johanblumenberg/ts-mockito/commit/e2b52a77324136d8b6a8aabf51eec8babaca221b)
+ - [Support enumerating properties on mocks](https://github.com/johanblumenberg/ts-mockito/commit/67195b7317014b6da27b97869efaeb6305d739da)
 
 ## Installation
 
