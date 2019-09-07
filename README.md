@@ -85,6 +85,19 @@ when(obj.method()).thenReturn(d); // Return a promise that is not resolved yet
 d.resolve(1); // Later, the promise is resolved or rejected
 ```
 
+
+### Mock `React` props with `enzyme`
+
+It's possible to mock props for react components when testing using enzyme.
+
+```typescript
+let props: Props = imock(MockPropertyPolicy.StubAsProperty);
+when(props.text).thenReturn('OK');
+when(props.onClick()).thenReturn();
+
+let c = mount(<MyButton {...instance(props)}>);
+```
+
 ## Usage
 
 ### Basics
