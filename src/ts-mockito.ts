@@ -91,7 +91,7 @@ export function capture(method: (...args: any[]) => any): ArgCaptor {
     const methodStub: MethodToStub = method();
     if (methodStub instanceof MethodToStub) {
         methodStub.watcher.invoked();
-        
+
         const actions = methodStub.mocker.getActionsByName(methodStub.methodName);
         return new ArgCaptor(actions);
     } else {
