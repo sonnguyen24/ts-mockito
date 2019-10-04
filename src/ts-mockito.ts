@@ -176,7 +176,7 @@ export function defer<T>(): Deferred<T> {
 }
 
 export function nextTick(): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, 0));
+    return new Promise(resolve => setImmediate(resolve));
 }
 
 // Export default object with all members (ember-browserify doesn't support named exports).
