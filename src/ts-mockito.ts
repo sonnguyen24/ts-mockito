@@ -30,6 +30,10 @@ import {MethodToStub} from "./MethodToStub";
 import {Mocker, MockPropertyPolicy} from "./Mock";
 import {Spy} from "./Spy";
 
+// Keep a reference to the original, in case it is replaced with fake timers
+// by some library like jest or lolex
+const originalSetTimeout = setTimeout;
+
 export {MockPropertyPolicy} from "./Mock";
 
 export function spy<T>(instanceToSpy: T): T {
@@ -176,7 +180,7 @@ export function defer<T>(): Deferred<T> {
 }
 
 export function nextTick(): Promise<void> {
-    return new Promise(resolve => setTimeout(() => setImmediate(resolve), 0));
+    return new Promise(resolve => originalSetTimeout(() => setImmediate(resolve), 0));
 }
 
 // Export default object with all members (ember-browserify doesn't support named exports).

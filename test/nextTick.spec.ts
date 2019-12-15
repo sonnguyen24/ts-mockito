@@ -27,4 +27,25 @@ describe("nextTick", () => {
         await nextTick();
         expect(done).toBe(true);
     });
+
+    if (typeof jest !== "undefined") {
+        describe('with fake timers', () => {
+            beforeEach(() => {
+                jest.useFakeTimers();
+            });
+
+            afterEach(() => {
+                jest.useRealTimers();
+            });
+            
+            it('should execute after setImmediate()', async () => {
+                let done = false;
+        
+                setImmediate(() => done = true);
+        
+                await nextTick();
+                expect(done).toBe(true);
+            });    
+        });
+    }
 });
