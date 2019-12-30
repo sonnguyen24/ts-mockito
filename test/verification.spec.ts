@@ -844,6 +844,38 @@ describe("verifying mocked object", () => {
                 expect(e.message).toMatch(/getStringById\(2\)/);
             }
         });
+
+        it('should accept undefined in actual method calls', () => {
+            //given
+            instance(mockedFoo).getStringById(undefined);
+
+            try {
+                // when
+                verify(mockedFoo.getStringById(1)).once();
+
+                expect(true).toBe(false); // Above call should throw an exception
+            } catch (e) {
+                // then
+                expect(e.message).toMatch(/getStringById\(strictEqual\(1\)\)/);
+                expect(e.message).toMatch(/getStringById\(undefined\)/);
+            }
+        });
+
+        it("should accept undefined in expected method calls", () => {
+            //given
+            instance(mockedFoo).getStringById(2);
+
+            try {
+                // when
+                verify(mockedFoo.getStringById(undefined)).once();
+
+                expect(true).toBe(false); // Above call should throw an exception
+            } catch (e) {
+                // then
+                expect(e.message).toMatch(/getStringById\(strictEqual\(undefined\)\)/);
+                expect(e.message).toMatch(/getStringById\(2\)/);
+            }
+        });
     });
 });
 

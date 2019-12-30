@@ -11,6 +11,6 @@ export class MethodCallToStringConverter {
     }
 
     public convertActualCalls(calls: MethodAction[]): string[] {
-        return calls.map(call => call.methodName + '(' + call.args.map(arg => arg.toString()).join(', ') + ')');
+        return calls.map(call => call.methodName + '(' + call.args.map(arg => String(arg)).join(', ') + ')');
     }
 }
