@@ -164,17 +164,17 @@ export function objectContaining(expectedValue: Object): any {
 }
 
 export type Deferred<T> = Promise<T> & {
-    resolve: (value: T) => void;
-    reject: (err: any) => void;
+    resolve: (value: T) => Promise<void>;
+    reject: (err: any) => Promise<void>;
 };
 
 export function defer<T>(): Deferred<T> {
-    let resolve: (value: T) => void;
-    let reject: (err: any) => void;
+    let resolve: (value: T) => Promise<void>;
+    let reject: (err: any) => Promise<void>;
 
     const d = new Promise<T>((res, rej) => {
-        resolve = res;
-        reject = rej;
+        resolve = async (value: T) => res(value);
+        reject = async (err: any) => rej(err);
     });
     return Object.assign(d, { resolve, reject });
 }
