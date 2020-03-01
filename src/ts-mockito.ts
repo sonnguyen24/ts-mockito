@@ -33,6 +33,7 @@ import {Spy} from "./Spy";
 // Keep a reference to the original, in case it is replaced with fake timers
 // by some library like jest or lolex
 const originalSetTimeout = setTimeout;
+const originalSetImmediate = setImmediate;
 
 export {MockPropertyPolicy} from "./Mock";
 
@@ -180,7 +181,7 @@ export function defer<T>(): Deferred<T> {
 }
 
 export function nextTick(): Promise<void> {
-    return new Promise(resolve => originalSetTimeout(() => setImmediate(resolve), 0));
+    return new Promise(resolve => originalSetTimeout(() => originalSetImmediate(resolve), 0));
 }
 
 // Export default object with all members (ember-browserify doesn't support named exports).
