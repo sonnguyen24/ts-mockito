@@ -70,4 +70,5 @@ describe("mocking", () => {
 
 class FooWithProperties {
     public readonly sampleNumber: number;
+    public sampleWritableNumber: number;
 }

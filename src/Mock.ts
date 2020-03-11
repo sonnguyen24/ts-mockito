@@ -195,6 +195,7 @@ export class Mocker {
             enumerable: true,
             configurable: true,
             get: () => this.createActionListener(key)(),
+            set: (value: any) => value,
         });
 
         const propertyMock = () => {

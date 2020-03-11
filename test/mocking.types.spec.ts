@@ -283,6 +283,49 @@ describe("mocking", () => {
                 verify(mockedFoo.sampleProperty).called();
                 expect(result).toBe(null);
             });
+
+            it("can assign properties", () => {
+                // given
+                mockedFoo = imock(MockPropertyPolicy.StubAsProperty);
+                foo = instance(mockedFoo);
+
+                // when
+                foo.sampleProperty = "x";
+
+                // then
+                expect(foo.sampleProperty).toBe("x");
+            });
+
+/*
+ * TODO: not yet supported
+ *
+
+            it("can assign properties with expectations", () => {
+                // given
+                mockedFoo = imock(MockPropertyPolicy.StubAsProperty);
+                foo = instance(mockedFoo);
+
+                // when
+                when(mockedFoo.sampleProperty).thenReturn("y");
+                foo.sampleProperty = "x";
+
+                // then
+                expect(foo.sampleProperty).toBe("y");
+            });
+
+            it("can set expectations on assignment", () => {
+                // given
+                mockedFoo = imock(MockPropertyPolicy.StubAsProperty);
+                foo = instance(mockedFoo);
+
+                // when
+                when(mockedFoo.sampleProperty = "x").thenReturn("x");
+                foo.sampleProperty = "x";
+
+                // then
+                verify(foo.sampleProperty = "x").once();
+            });
+*/
         }
     });
 
