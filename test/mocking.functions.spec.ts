@@ -1,4 +1,6 @@
-import { capture, fnmock, imock, instance, mock, reset, resetCalls, verify, when } from "../src/ts-mockito";
+import { capture, fnmock, cmock, imock, instance, reset, resetCalls, verify, when } from "../src/ts-mockito";
+
+class TestClass {}
 
 if (typeof Proxy !== "undefined") {
     describe("mocking", () => {
@@ -47,6 +49,17 @@ if (typeof Proxy !== "undefined") {
 
                 instance(fn)("a");
                 expect(capture(fn).last()).toEqual(["a"]);
+            });
+
+            it("should mock constructors", () => {
+                const ctor: new () => TestClass = cmock();
+                const mockClass: TestClass = imock();
+                when(new ctor()).thenReturn(instance(mockClass));
+
+                const result = new (instance(ctor))();
+
+                verify(new ctor()).called();
+                expect(result).toBe(instance(mockClass));
             });
         });
     });

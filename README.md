@@ -11,6 +11,7 @@ Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept 
  - [Adding `nextTick()`](https://github.com/johanblumenberg/ts-mockito/pull/2)
  - [Better types on `anyFunction()` and `thenCall()`](https://github.com/johanblumenberg/ts-mockito/pull/3)
  - [Better call verification error messages](https://github.com/johanblumenberg/ts-mockito/pull/4)
+ - Mocking of constructors
 
 ## Installation
 
@@ -75,6 +76,21 @@ when(fn(10, 'hello')).thenReturn(5);
 
 instance(fn)(10, 'hello'); // returns 5
 verify(fn(10, 'hello')).called();
+```
+
+### Mocking constructors
+
+Sometimes you need to mock a constructor, and control creation of new objects.
+
+```typescript
+let mockedFooCtor: new () => Foo = cmock();
+let mockedFoo:Foo = imock();
+when(new mockedFooCtor()).thenReturn(instance(mockedFoo));
+
+const result = new (instance(mockedFooCtor))();
+
+verify(new mockedFooCtor()).called();
+expect(result).toBe(instance(mockedFoo));
 ```
 
 ### Defer resolving promises

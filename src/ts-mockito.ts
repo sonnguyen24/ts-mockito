@@ -67,6 +67,10 @@ export function fnmock<R, T extends any[]>(): (...args: T) => R {
     return m.fn;
 }
 
+export function cmock<R, T extends any[]>(): new (...args: T) => R {
+    return fnmock() as any;
+}
+
 export function verify<T>(method: T): MethodStubVerificator<T> {
     return new MethodStubVerificator(method as any);
 }
@@ -190,6 +194,7 @@ export default {
     mock,
     imock,
     fnmock,
+    cmock,
     verify,
     when,
     instance,
