@@ -12,6 +12,7 @@ Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept 
  - [Better types on `anyFunction()` and `thenCall()`](https://github.com/johanblumenberg/ts-mockito/pull/3)
  - [Better call verification error messages](https://github.com/johanblumenberg/ts-mockito/pull/4)
  - Mocking of constructors
+ - Make `.thenResolve()` work for `PromiseLike<T>`
 
 ## Installation
 

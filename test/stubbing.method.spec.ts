@@ -175,6 +175,21 @@ describe("mocking", () => {
                     .catch(err => done.fail(err));
             });
 
+            it("resolves with given value for PromiseLike", done => {
+                // given
+                const sampleValue = "abc";
+                const expectedResult = "def";
+                when(mockedFoo.sampleMethodReturningPromiseLike(sampleValue)).thenResolve(expectedResult);
+
+                // when
+                foo.sampleMethodReturningPromiseLike(sampleValue)
+                    .then(value => {
+                        // then
+                        expect(value).toEqual(expectedResult);
+                        done();
+                    });
+            });
+
             it("resolves with multiple values", done => {
                 when(mockedFoo.sampleMethodReturningPromise("abc")).thenResolve("one", "two", "three");
 

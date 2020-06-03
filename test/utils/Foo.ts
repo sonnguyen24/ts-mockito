@@ -39,6 +39,10 @@ export class Foo {
         return Promise.resolve(value);
     }
 
+    public sampleMethodReturningPromiseLike(value: string): PromiseLike<string> {
+        return Promise.resolve(value);
+    }
+
     public sampleMethodReturningVoidPromise(value: string): Promise<void> {
         return Promise.resolve();
     }
