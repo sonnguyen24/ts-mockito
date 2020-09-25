@@ -13,6 +13,7 @@ Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept 
  - [Better call verification error messages](https://github.com/johanblumenberg/ts-mockito/pull/4)
  - Mocking of constructors
  - Make `.thenResolve()` work for `PromiseLike<T>`
+ - [Make spying on an object prototype work](https://github.com/johanblumenberg/ts-mockito/commit/5171b536ba52d3e5d34479965fb95880bff0df4b)
 
 ## Installation
 
