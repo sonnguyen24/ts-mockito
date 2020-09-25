@@ -14,8 +14,8 @@ export class CallThroughMethodStub implements MethodStub {
         return false;
     }
 
-    public execute(args: any[]): void {
-        this.result = this.method.apply(this.instance, args);
+    public execute(args: any[], thisArg: any): void {
+        this.result = this.method.apply(thisArg, args);
     }
 
     public getValue(): any {

@@ -283,4 +283,20 @@ describe("spying on a real object", () => {
             expect(bareObject.newMethod()).toBeFalsy();
         });
     });
+
+    describe("spy on a prototype", () => {
+        it("should be able to spy on a prototype", () => {
+            class Foo {
+                public method() {
+                    return this;
+                }
+            }
+
+            const spiedPrototype = spy(Foo.prototype);
+            const obj = new Foo();
+
+            expect(obj.method()).toBe(obj);
+            verify(spiedPrototype.method()).once();
+        });
+    });
 });

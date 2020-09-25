@@ -149,12 +149,15 @@ export class Mocker {
     }
 
     protected createActionListener(key: string): () => any {
-        return (...args) => {
+        const actionListener = (thisArg: any, args: any[]) => {
             const action: MethodAction = new MethodAction(key, args);
             this.methodActions.push(action);
             const methodStub = this.getMethodStub(key, args);
-            methodStub.execute(args);
+            methodStub.execute(args, thisArg);
             return methodStub.getValue();
+        };
+        return function() {
+            return actionListener(this, Array.from(arguments));
         };
     }
 
