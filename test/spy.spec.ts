@@ -260,6 +260,34 @@ describe("spying on a real object", () => {
             expect(bareObject.otherMethod()).toBe(2);
         });
 
+        it("can spy on object which access internal setter and getter", () => {
+            // igven
+            class X {
+                private internal: number = 0;
+
+                public get x() {
+                    return this.internal;
+                }
+
+                public set x(value: number) {
+                    this.internal = value;
+                }
+
+                public method(value: number) {
+                    this.x = value;
+                }
+            }
+
+            const bareObj = new X();
+
+            // when
+            spy(bareObj);
+
+            // then
+            bareObj.method(2);
+            expect(bareObj.x).toBe(2);
+        });
+
         it("delegates a call to the mock", () => {
             // given
             const spiedObject = spy(bareObject);
