@@ -2,6 +2,18 @@ import {Matcher} from "../matcher/type/Matcher";
 import {MethodToStub} from "../MethodToStub";
 import { MethodAction } from "../MethodAction";
 
+function argToString(arg: any): string {
+    const type = typeof arg;
+
+    if (type === "string") {
+        return arg;
+    } else if (!arg || type === "number") {
+        return String(arg);
+    } else {
+        return JSON.stringify(arg);
+    }
+}
+
 export class MethodCallToStringConverter {
     public convert(method: MethodToStub): string {
         method.watcher.invoked();
@@ -11,6 +23,6 @@ export class MethodCallToStringConverter {
     }
 
     public convertActualCalls(calls: MethodAction[]): string[] {
-        return calls.map(call => call.methodName + '(' + call.args.map(arg => String(arg)).join(', ') + ')');
+        return calls.map(call => call.methodName + "(" + call.args.map(argToString).join(", ") + ")");
     }
 }

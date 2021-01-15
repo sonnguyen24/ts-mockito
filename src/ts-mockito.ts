@@ -165,7 +165,14 @@ export function endsWith(expectedValue: string): string {
     return new EndsWithMatcher(expectedValue) as any;
 }
 
-export function objectContaining(expectedValue: Object): any {
+type RecursivePartial<T> = {
+    [P in keyof T]?:
+      T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+      T[P] extends object ? RecursivePartial<T[P]> :
+      T[P];
+};
+
+export function objectContaining<T>(expectedValue: RecursivePartial<T extends true ? T : T>): T {
     return new ObjectContainingMatcher(expectedValue) as any;
 }
 
