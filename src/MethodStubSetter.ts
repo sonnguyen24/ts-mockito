@@ -5,7 +5,18 @@ import {ResolvePromiseMethodStub} from "./stub/ResolvePromiseMethodStub";
 import {ReturnValueMethodStub} from "./stub/ReturnValueMethodStub";
 import {ThrowErrorMethodStub} from "./stub/ThrowErrorMethodStub";
 
-export class MethodStubSetter<T, ResolveType = void, RejectType = void> {
+export interface SyncMethodStubSetter<T> {
+    thenReturn(...rest: T[]): this;
+    thenThrow(...rest: Error[]): this;
+    thenCall(func: (...args: any[]) => T): this;
+}
+
+export interface AsyncMethodStubSetter<T, ResolveType> extends SyncMethodStubSetter<T> {
+    thenResolve(...rest: ResolveType[]): this;
+    thenReject(...rest: any[]): this;
+}
+
+export class MethodStubSetter<T, ResolveType> implements AsyncMethodStubSetter<T, ResolveType> {
     private static globalGroupIndex: number = 0;
     private groupIndex: number;
 
@@ -44,7 +55,7 @@ export class MethodStubSetter<T, ResolveType = void, RejectType = void> {
         return this;
     }
 
-    public thenReject(...rest: RejectType[]): this {
+    public thenReject(...rest: any[]): this {
         rest.forEach(value => {
             this.methodToStub.methodStubCollection.add(new RejectPromiseMethodStub(this.groupIndex, this.methodToStub.matchers, value));
         });

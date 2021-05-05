@@ -24,7 +24,7 @@ import {NotNullMatcher} from "./matcher/type/NotNullMatcher";
 import {ObjectContainingMatcher} from "./matcher/type/ObjectContainingMatcher";
 import {StartsWithMatcher} from "./matcher/type/StartsWithMatcher";
 import {StrictEqualMatcher} from "./matcher/type/StrictEqualMatcher";
-import {MethodStubSetter} from "./MethodStubSetter";
+import {AsyncMethodStubSetter,MethodStubSetter,SyncMethodStubSetter} from "./MethodStubSetter";
 import {MethodStubVerificator} from "./MethodStubVerificator";
 import {MethodToStub} from "./MethodToStub";
 import {Mocker, MockPropertyPolicy} from "./Mock";
@@ -75,9 +75,9 @@ export function verify<T>(method: T): MethodStubVerificator<T> {
     return new MethodStubVerificator(method as any);
 }
 
-export function when<T>(method: PromiseLike<T>): MethodStubSetter<PromiseLike<T>, T, any>;
-export function when<T>(method: Promise<T>): MethodStubSetter<Promise<T>, T, any>;
-export function when<T>(method: T): MethodStubSetter<T>;
+export function when<T>(method: PromiseLike<T>): AsyncMethodStubSetter<PromiseLike<T>, T>;
+export function when<T>(method: Promise<T>): AsyncMethodStubSetter<Promise<T>, T>;
+export function when<T>(method: T): SyncMethodStubSetter<T>;
 export function when<T>(method: any): any {
     return new MethodStubSetter(method);
 }
