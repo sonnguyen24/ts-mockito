@@ -77,7 +77,8 @@ export function verify<T>(method: T): MethodStubVerificator<T> {
 
 export function when<T>(method: PromiseLike<T>): AsyncMethodStubSetter<PromiseLike<T>, T>;
 export function when<T>(method: Promise<T>): AsyncMethodStubSetter<Promise<T>, T>;
-export function when<T>(method: T): SyncMethodStubSetter<T>;
+// When T is any - return AsyncMethodStubSetter<any, any>, otherwise return SynccMethodStubSetter<T>
+export function when<T>(method: T): 0 extends (1 & T) ? AsyncMethodStubSetter<any, any> : SyncMethodStubSetter<T>;
 export function when<T>(method: any): any {
     return new MethodStubSetter(method);
 }

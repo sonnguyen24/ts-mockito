@@ -246,6 +246,20 @@ describe("mocking", () => {
                         })
                         .catch(err => done.fail(err));
                 });
+
+                it('compiles when the return type is any', () => {
+                    interface Foo {
+                        a(): number;
+                        b(): Promise<number>;
+                        c(): any;
+                    }
+
+                    const mockedFoo: Foo = imock();
+
+                    // when(mockedFoo.a()).thenResolve(1); // - should not compile
+                    when(mockedFoo.b()).thenResolve(1); // - should compile
+                    when(mockedFoo.c()).thenResolve(1); // - should compile
+                });
             }
         });
 
