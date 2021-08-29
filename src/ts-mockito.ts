@@ -45,7 +45,7 @@ export function mock<T>(clazz: (new(...args: any[]) => T) | (Function & { protot
     return new Mocker(clazz, policy).getMock();
 }
 
-export function imock<T>(policy: MockPropertyPolicy = MockPropertyPolicy.StubAsMethod): T {
+export function imock<T>(policy: MockPropertyPolicy = MockPropertyPolicy.StubAsMethod): NonNullable<T> extends object ? T : unknown {
     class Empty {}
     const mockedValue = new Mocker(Empty, policy).getMock();
 
