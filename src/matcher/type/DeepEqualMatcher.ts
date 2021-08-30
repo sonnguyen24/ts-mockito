@@ -18,10 +18,6 @@ export class DeepEqualMatcher extends Matcher {
     }
 
     public toString(): string {
-        if (this.expectedValue instanceof Array) {
-            return `deepEqual([${this.expectedValue}])`;
-        } else {
-            return `deepEqual(${this.expectedValue})`;
-        }
+        return `deepEqual(${JSON.stringify(this.expectedValue)})`;
     }
 }
