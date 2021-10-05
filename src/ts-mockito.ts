@@ -56,15 +56,15 @@ export function imock<T>(policy: MockPropertyPolicy = MockPropertyPolicy.StubAsM
     return new Proxy(mockedValue, tsmockitoMocker.createCatchAllHandlerForRemainingPropertiesWithoutGetters("expectation"));
 }
 
-export function fnmock<R, T extends any[]>(): (...args: T) => R {
+export function fnmock<T extends (...args: any[]) => void>(): T {
     class Mock {
-        public fn(...args: T): R { return null as R; }
+        public fn(...args: any[]): any { return null; }
     }
 
     const m: Mock = mock(Mock);
     (m.fn as any).__tsmockitoInstance = instance(m).fn;
     (m.fn as any).__tsmockitoMocker = (m as any).__tsmockitoMocker;
-    return m.fn;
+    return m.fn as T;
 }
 
 export function cmock<R, T extends any[]>(): new (...args: T) => R {

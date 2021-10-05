@@ -14,6 +14,25 @@ if (typeof Proxy !== "undefined") {
                 verify(fn()).called();
             });
 
+            it("should mock functions with multiple call signatures", () => {
+                function FN(a: number): number;
+                function FN(a: string): string;
+                function FN(a: any) { return a; }
+
+                const fn: typeof FN = fnmock();
+
+                when(fn("a")).thenReturn("b");
+                when(fn(1)).thenReturn(2);
+
+                expect(instance(fn)("a")).toEqual("b");
+                expect(instance(fn)("b")).toBeNull();
+                verify(fn("a")).called();
+
+                expect(instance(fn)(1)).toEqual(2);
+                expect(instance(fn)(2)).toBeNull();
+                verify(fn(1)).called();
+            });
+
             it("should match arguments of free functions", () => {
                 const fn: (a: string, b: number) => number = fnmock();
 
