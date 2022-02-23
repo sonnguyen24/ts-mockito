@@ -1,7 +1,7 @@
 {
-  "name": "@johanblumenberg/ts-mockito",
+  "name": "@sym20/ts-mockito",
   "version": "1.0.9",
-  "description": "Mocking library for TypeScript",
+  "description": "Mocking library for TypeScript. forked from https://github.com/johanblumenberg/ts-mockito",
   "main": "lib/ts-mockito.js",
   "typings": "lib/ts-mockito",
   "scripts": {
@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/johanblumenberg/ts-mockito"
+    "url": "https://github.com/SymphonyOSF/ts-mockito.git"
   },
   "keywords": [
     "mock",

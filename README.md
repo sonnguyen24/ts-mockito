@@ -1,6 +1,6 @@
-# @johanblumenberg/ts-mockito
+# @sym20/ts-mockito
 
-Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept until the following PRs are accepted, or similar functionality is added to ts-mockito:
+Fork of [ts-mockito](https://github.com/NagRock/ts-mockito) and [johanblumenberg/ts-mockito](https://github.com/johanblumenberg/ts-mockito), which will be kept until the following PRs are accepted, or similar functionality is added to ts-mockito:
  - [Adding support for mocking interfaces](https://github.com/NagRock/ts-mockito/pull/76)
  - [Adding support for verify(...).timeout(ms)](https://github.com/NagRock/ts-mockito/pull/97)
  - [Matcher types](https://github.com/NagRock/ts-mockito/pull/139)
@@ -8,9 +8,6 @@ Fork of [ts-mockito](https://github.com/NagRock/ts-mockito), which will be kept 
  - [Add defer() for testing deferred promise resolution](https://github.com/NagRock/ts-mockito/pull/141)
  - [Add warning when forgetting to call instance()](https://github.com/johanblumenberg/ts-mockito/commit/e2b52a77324136d8b6a8aabf51eec8babaca221b)
 
-## Installation
-
-`npm install @johanblumenberg/ts-mockito --save-dev`
 
 ## Added functionality in this fork
 
